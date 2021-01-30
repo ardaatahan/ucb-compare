@@ -1,0 +1,3 @@
+,action_idx = 0,action_idx = 1,action_idx = 2,action_idx = 3,action_idx = 4,action_idx = 5,action_idx = 6,action_idx = 7,action_idx = 8,action_idx = 9
+UCB,0.02,0.09,99.71,0.02,0.03,0.03,0.02,0.04,0.02,0.03
+Expected Reward,-0.76,0.45,1.19,-1.0,0.23,-0.29,-0.48,0.32,-1.18,-0.19

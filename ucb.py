@@ -14,7 +14,7 @@ class ucb:
 
     def play(self):
         action_idx = np.argmax(
-            self.rewards + np.sqrt(2 * np.log(self.step_count) / self.arm_step_counts))
+            self.arms_mean_reward + np.sqrt(2 * np.log(self.step_count) / self.arm_step_counts))
 
         reward = np.random.normal(self.reward_means[action_idx], 1)
 
@@ -23,22 +23,13 @@ class ucb:
 
         self.mean_reward = self.mean_reward + \
             (reward - self.mean_reward) / self.step_count
-
         self.arms_mean_reward[action_idx] = self.arms_mean_reward[action_idx] + \
             (reward - self.arms_mean_reward[action_idx]) / self.step_count
 
     def run(self):
-        for i in range(self.iters):
+        for i in range(self.num_iters):
             self.play()
             self.rewards[i] = self.mean_reward
-
-    def reset(self):
-        self.step_count = 1
-        self.arm_step_counts = np.ones(num_arms)
-        self.mean_reward = 0
-        self.rewards = np.zeros(num_iters)
-        self.arms_mean_reward = np.zeros(num_arms)
-        self.reward_means = np.random.normal(0, 1, num_arms)
 
 
 class gp_ucb:
