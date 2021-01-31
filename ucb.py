@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class ucb:
+class ucb1:
     def __init__(self, num_arms, num_iters):
         self.num_arms = num_arms
         self.num_iters = num_iters
