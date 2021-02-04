@@ -41,9 +41,6 @@ class gp_ucb:
     def __init__(self, num_arms, num_iters, reward_distribution):
         self.num_arms = num_arms
         self.num_iters = num_iters
-        self.mean_reward = 0
-        self.rewards = np.zeros(num_iters)
-        self.arms_mean_reward = np.zeros(num_arms)
         self.y = reward_distribution
         self.x = np.arange(num_arms, step=1.0).reshape(num_arms, 1)
         self.obs_x = np.zeros(num_iters).reshape(num_iters, 1)
