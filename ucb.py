@@ -2,7 +2,7 @@ import numpy as np
 
 
 class ucb1:
-    def __init__(self, num_arms, num_iters):
+    def __init__(self, num_arms, num_iters, reward_distribution):
         self.num_arms = num_arms
         self.num_iters = num_iters
         self.step_count = 1
@@ -10,13 +10,16 @@ class ucb1:
         self.mean_reward = 0
         self.rewards = np.zeros(num_iters)
         self.arms_mean_reward = np.zeros(num_arms)
-        self.reward_means = np.random.normal(0, 1, num_arms)
+        self.reward_distribution = reward_distribution
+        self.cumulative_regret = 0
+        self.regrets = np.zeros(num_iters)
 
-    def play(self):
+    def _play(self):
         action_idx = np.argmax(
             self.arms_mean_reward + np.sqrt(2 * np.log(self.step_count) / self.arm_step_counts))
 
-        reward = np.random.normal(self.reward_means[action_idx], 1)
+        reward = self.reward_distribution[action_idx]
+        self.cumulative_regret += (np.max(self.reward_distribution) - reward)
 
         self.step_count += 1
         self.arm_step_counts[action_idx] += 1
@@ -28,9 +31,25 @@ class ucb1:
 
     def run(self):
         for i in range(self.num_iters):
-            self.play()
+            self._play()
             self.rewards[i] = self.mean_reward
+            self.regrets[i] = self.cumulative_regret
 
 
 class gp_ucb:
-    pass
+    def __init__(self, num_arms, num_iters, reward_distribution):
+        self.num_arms = num_arms
+        self.num_iters = num_iters
+        self.mean_reward = 0
+        self.rewards = np.zeros(num_iters)
+        self.arms_mean_reward = np.zeros(num_arms)
+        self.reward_distribution = reward_distribution
+
+    def _ucb(mean, variance, beta):
+        return np.argmax(mean + np.sqrt(beta) * variance)
+
+    def play(self):
+        pass
+
+    def run(self):
+        pass
