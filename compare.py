@@ -8,7 +8,7 @@ from ucb import *
 num_arms = 10
 num_iters_ucb1 = 50000
 num_iters_gp_ucb = 100
-reward_distribution = np.random.normal(0, 1, num_arms).reshape(num_arms, 1)
+reward_distribution = np.random.normal(0, 10, num_arms).reshape(num_arms, 1)
 
 ucb1 = ucb1(num_arms, num_iters_ucb1, reward_distribution)
 

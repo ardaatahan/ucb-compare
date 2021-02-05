@@ -48,7 +48,7 @@ class gp_ucb:
         self.cumulative_regret = 0
         self.regrets = np.zeros(num_iters)
 
-    def _ucb(self, mean, variance, beta=1):
+    def _ucb(self, mean, variance, beta=4):
         return np.argmax(mean + np.sqrt(beta) * variance)
 
     def run(self):
@@ -57,13 +57,13 @@ class gp_ucb:
             model = gpflow.models.GPR(
                 data=(self.obs_x, self.obs_y), kernel=kernel)
             optimizer = gpflow.optimizers.Scipy()
-            opt_logs = optimizer.minimize(
+            _ = optimizer.minimize(
                 model.training_loss, model.trainable_variables, options=dict(maxiter=100))
 
             mean, variance = model.predict_f(self.x)
             x_t = self._ucb(mean, variance)
 
-            print(x_t, np.max(self.y), self.y[x_t])
+            print(i, np.argmax(self.y), x_t, np.max(self.y), self.y[x_t][0])
 
             self.cumulative_regret += np.max(self.y) - self.y[x_t]
             self.regrets[i] = self.cumulative_regret
